@@ -11,7 +11,7 @@ val apiKey = BuildConfig.COINRANKING_API_KEY
 
 val apiKeyInterceptor = Interceptor { chain ->
     val originalRequest = chain.request()
-    val newUrl = originalRequest.url().newBuilder()
+    val newUrl = originalRequest.url.newBuilder()
         .addQueryParameter("apikey", apiKey)
         .build()
     val newRequest = originalRequest.newBuilder()

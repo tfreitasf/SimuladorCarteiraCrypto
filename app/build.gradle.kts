@@ -39,6 +39,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -53,4 +57,12 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    implementation("io.coil-kt:coil:2.5.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+
+    val lifecycle_version = "2.4.0"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
 }

@@ -2,12 +2,18 @@ package br.com.povengenharia.simuladorcarteiracrypto.database.webclient.model
 
 data class CoinResponse(
     val status: String,
-    val data: List<Coin>
+    val data: CoinData
+)
+
+data class CoinData(
+    val coins: List<Coin>
 )
 
 data class Coin(
-    val id: String,
-    val name: String,
+    val uuid: String,
     val symbol: String,
+    val name: String,
+    val iconUrl: String,
     val price: String
 )
+
