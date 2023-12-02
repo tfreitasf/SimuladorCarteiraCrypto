@@ -1,5 +1,6 @@
 package br.com.povengenharia.simuladorcarteiracrypto.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         adapter = CoinListAdapter(emptyList())
         setupRecyclerView()
+        configureDepositFab()
+        configureWithdrawFab()
         fetchCoins()
     }
 
@@ -64,6 +67,31 @@ class MainActivity : AppCompatActivity() {
     private fun initializeCoinService(): CoinService {
         val starterRetrofit = StarterRetrofit()
         return starterRetrofit.coinService
+    }
+
+    private fun configureDepositFab(){
+        val fab = binding.fabActivityMainDeposit
+        fab.setOnClickListener{
+            depositForm()
+        }
+    }
+
+    private fun depositForm(){
+        val intent = Intent(this, DepositActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    private fun configureWithdrawFab(){
+        val fab = binding.fabActivityMainWithdraw
+        fab.setOnClickListener {
+            withdrawForm()
+        }
+    }
+
+    private fun withdrawForm(){
+        val intent = Intent(this, WithdrawActivity::class.java)
+        startActivity(intent)
     }
 
 
