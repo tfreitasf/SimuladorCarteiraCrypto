@@ -9,5 +9,10 @@
     <string name="txt_btn_deposit">DEPOSITAR</string>
     <string name="txt_btn_withdraw">SACAR</string>
     <string name="txt_activity_withdraw_value">Valor</string>
-    <string name="txt_activity_withdraw_amount_prompt">Quanto você deseja sacar</string>
+    <string name="txt_activity_withdraw_amount_prompt">Quanto você deseja sacar?</string>
+    <string name="txt_activity_deposit_amount_prompt">Quanto você deseja depositar?</string>
+    <string name="txt_btn_activity_wallet_form_save">salvar</string>
+    <string name="txt_hint_activity_wallet_form_name">Digite o nome</string>
+    <string name="txt_hint_activity_wallet_form_">Digite a descrição</string>
+    <string name="txt_activity_wallet_form_title">Cadastrar Carteira</string>
 </resources>

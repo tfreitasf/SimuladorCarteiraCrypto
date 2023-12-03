@@ -43,18 +43,17 @@
             android:hint="@string/txt_value"
             android:inputType="numberDecimal" />
 
-        <Button
-            android:id="@+id/bt_activity_withdraw_withdraw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/txt_btn_withdraw"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_activity_withdraw_withdraw_amount" />
-
-
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/bt_activity_withdraw_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/txt_btn_withdraw"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_activity_withdraw_withdraw_amount" />
 
 
 

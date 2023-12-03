@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         configureDepositFab()
         configureWithdrawFab()
+        configureAddWalletFormFab()
         fetchCoins()
     }
 
@@ -91,6 +92,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun withdrawForm(){
         val intent = Intent(this, WithdrawActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    private fun configureAddWalletFormFab(){
+        val fab = binding.efabActivityMainAddWallet
+        fab.setOnClickListener {
+            addWalletForm()
+        }
+
+    }
+    private fun addWalletForm(){
+        val intent = Intent(this, WalletFormActivity::class.java)
         startActivity(intent)
     }
 
