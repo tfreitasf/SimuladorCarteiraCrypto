@@ -26,4 +26,5 @@
     <string name="txt_activity_crypto_details_last_price">Último preço</string>
     <string name="txt_btn_activity_crypto_details_buy">COMPRAR</string>
     <string name="txt_btn_activity_crypto_details_sell">VENDER</string>
+    <string name="txt_btn_activity_wallet_details_buy">COMPRAR</string>
 </resources>
