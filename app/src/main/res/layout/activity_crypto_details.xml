@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.CryptoDetailsActivity">
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_crypto_balance_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/txt_activity_crypto_details_balance_available"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_symbol_crypto_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_activity_crypto_details_crypto_balance_available"
+        tools:text="@string/txt_activity_crypto_details_symbol_crypto_available" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_amount_crypto_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_activity_crypto_details_symbol_crypto_available"
+        app:layout_constraintTop_toTopOf="@id/tv_activity_crypto_details_crypto_balance_available"
+        tools:text="@string/txt_activity_crypto_details_amount_crypto_available" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_money_balance_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/txt_activity_crypto_details_balance_available"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_activity_crypto_details_crypto_balance_available" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_symbol_money_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/txt_activity_crypto_details_symbol_money_available"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_activity_crypto_details_money_balance_available" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_amount_money_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_activity_crypto_details_symbol_money_available"
+        app:layout_constraintTop_toTopOf="@id/tv_activity_crypto_details_money_balance_available"
+        tools:text="@string/txt_activity_crypto_details_amount_money_available" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_last_price_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/txt_activity_crypto_details_last_price"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_activity_crypto_details_money_balance_available" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_symbol_last_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/txt_activity_crypto_details_symbol_money_available"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_activity_crypto_details_last_price_title" />
+
+    <TextView
+        android:id="@+id/tv_activity_crypto_details_last_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_activity_crypto_details_symbol_last_price"
+        app:layout_constraintTop_toTopOf="@id/tv_activity_crypto_details_last_price_title"
+        tools:text="@string/txt_activity_crypto_details_amount_money_available" />
+
+    <Button
+        android:id="@+id/btn_activity_crypto_details_buy"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_btn_activity_crypto_details_buy"
+        app:layout_constraintEnd_toStartOf="@id/btn_activity_crypto_details_sell"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_activity_crypto_details_last_price_title" />
+
+    <Button
+        android:id="@+id/btn_activity_crypto_details_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_btn_activity_crypto_details_sell"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_activity_crypto_details_buy"
+        app:layout_constraintTop_toTopOf="@id/btn_activity_crypto_details_buy" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

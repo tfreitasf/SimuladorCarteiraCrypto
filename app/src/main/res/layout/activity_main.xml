@@ -68,8 +68,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_main_activity_recyclerview"
         android:layout_width="0dp"
-        android:layout_marginTop="8dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,12 +78,12 @@
         tools:listitem="@layout/coin_item" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/efab_activity_main_add_wallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/efab_activity_main_add_wallet"
-        app:icon="@drawable/addwallet"
         android:layout_margin="16dp"
-        android:text="Adicionar Carteira"
+        android:text="@string/txt_btn_activity_main_add_wallet"
+        app:icon="@drawable/addwallet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

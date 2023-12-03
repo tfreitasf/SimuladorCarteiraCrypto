@@ -9,10 +9,21 @@
     <string name="txt_btn_deposit">DEPOSITAR</string>
     <string name="txt_btn_withdraw">SACAR</string>
     <string name="txt_activity_withdraw_value">Valor</string>
+    <string name="txt_activity_wallet_details_balance_in_crypto_assets">Saldo em Criptoativos</string>
     <string name="txt_activity_withdraw_amount_prompt">Quanto você deseja sacar?</string>
     <string name="txt_activity_deposit_amount_prompt">Quanto você deseja depositar?</string>
     <string name="txt_btn_activity_wallet_form_save">salvar</string>
     <string name="txt_hint_activity_wallet_form_name">Digite o nome</string>
     <string name="txt_hint_activity_wallet_form_">Digite a descrição</string>
     <string name="txt_activity_wallet_form_title">Cadastrar Carteira</string>
+    <string name="txt_activity_wallet_details_balance">$ 80,00</string>
+    <string name="txt_btn_activity_main_add_wallet">Adicionar Carteira</string>
+    <string name="txt_activity_crypto_details_balance_available">Saldo disponível</string>
+    <string name="txt_activity_crypto_details_symbol_crypto_available">(BTC)</string>
+    <string name="txt_activity_crypto_details_symbol_money_available">($)</string>
+    <string name="txt_activity_crypto_details_amount_crypto_available">0,00000</string>
+    <string name="txt_activity_crypto_details_amount_money_available">00,00</string>
+    <string name="txt_activity_crypto_details_last_price">Último preço</string>
+    <string name="txt_btn_activity_crypto_details_buy">COMPRAR</string>
+    <string name="txt_btn_activity_crypto_details_sell">VENDER</string>
 </resources>

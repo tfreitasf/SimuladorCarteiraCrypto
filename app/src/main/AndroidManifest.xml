@@ -15,6 +15,12 @@
         android:theme="@style/Theme.SimuladorCarteiraCrypto"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.CryptoDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.WalletDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.WalletFormActivity"
             android:exported="false" />
         <activity
