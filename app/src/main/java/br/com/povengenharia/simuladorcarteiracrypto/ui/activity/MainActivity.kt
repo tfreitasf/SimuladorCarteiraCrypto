@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityMainBinding
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.WalletListAdapter
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 
@@ -40,11 +41,13 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         setupRecyclerView()
         lifecycleScope.launch {
-            walletDao.getAllWallet().collect{ wallets ->
+            walletDao.getAllWallet().collect { wallets ->
                 Log.d("MainActivity", "Carteiras atualizadas: $wallets")
                 adapter.update(wallets)
+                updateMyProperty()
             }
         }
+
     }
 
     private fun setupRecyclerView() {
@@ -96,5 +99,22 @@ class MainActivity : AppCompatActivity() {
     private fun addWalletForm() {
         val intent = Intent(this, WalletFormActivity::class.java)
         startActivity(intent)
+    }
+
+    private suspend fun updateMyProperty() {
+        lifecycleScope.launch {
+            val moneyWalletBalance = walletDao.findById(1).firstOrNull()?.totalBalance ?: 0.0
+
+            val cryptoWalletsTotalBalance = walletDao.getAllWallet()
+                .firstOrNull()
+                ?.filter { it.type == "Crypto" }
+                ?.sumOf { it.totalBalance } ?: 0.0
+
+            val totalBalance = moneyWalletBalance + cryptoWalletsTotalBalance
+
+            val binding = binding.tvActivityMainPropertyValues
+            binding.text =totalBalance.toString()
+        }
+
     }
 }
