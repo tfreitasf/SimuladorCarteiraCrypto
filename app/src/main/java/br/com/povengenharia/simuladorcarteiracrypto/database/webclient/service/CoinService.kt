@@ -9,4 +9,6 @@ interface CoinService {
 
     @GET("coins")
     suspend fun getCoins(@Query("apikey") apiKey: String): Response<CoinResponse>
+
+
 }

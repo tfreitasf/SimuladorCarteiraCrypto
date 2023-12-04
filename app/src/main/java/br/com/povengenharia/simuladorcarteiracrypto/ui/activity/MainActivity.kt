@@ -7,11 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
+import br.com.povengenharia.simuladorcarteiracrypto.database.webclient.StarterRetrofit
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityMainBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
+import br.com.povengenharia.simuladorcarteiracrypto.repository.CoinRepository
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.WalletListAdapter
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +32,12 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private val coinRepository: CoinRepository by lazy {
+        val coinService = StarterRetrofit().coinService
+        val appDatabase = AppDatabase.getInstance(this, CoroutineScope(Dispatchers.IO))
+        CoinRepository(coinService, appDatabase, CoroutineScope(Dispatchers.IO))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 updateMyProperty()
             }
         }
+        coinRepository.fetchAndUpdateCryptoData()
 
     }
 
@@ -115,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
         val binding = binding.tvActivityMainPropertyValues
         binding.text = formattedTotalBalance.toString()
-
-
     }
+
+
 }
