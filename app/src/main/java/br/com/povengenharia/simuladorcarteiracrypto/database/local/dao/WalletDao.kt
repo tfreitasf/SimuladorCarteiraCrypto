@@ -24,5 +24,5 @@ interface WalletDao {
     suspend fun deleteWallet(wallet: Wallet)
 
     @Query("SELECT * FROM Wallet WHERE id = :id")
-    fun findById(id: Int): Flow<List<Wallet?>>
+    fun findById(id: Int): Flow<Wallet?>
 }

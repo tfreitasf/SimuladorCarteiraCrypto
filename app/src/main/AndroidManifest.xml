@@ -30,7 +30,7 @@
             android:name=".ui.activity.WithdrawActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.DepositActivity"
+            android:name=".ui.activity.DepositFormActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"

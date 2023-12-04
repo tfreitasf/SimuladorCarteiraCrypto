@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun depositForm() {
-        val intent = Intent(this, DepositActivity::class.java)
+        val intent = Intent(this, DepositFormActivity::class.java)
         startActivity(intent)
     }
 
