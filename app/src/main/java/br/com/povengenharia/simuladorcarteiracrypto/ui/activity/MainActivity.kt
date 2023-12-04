@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val walletDao by lazy {
-        val db = AppDatabase.getInstance(this)
+        val db = AppDatabase.getInstance(this, lifecycleScope)
         db.walletDao()
     }
 

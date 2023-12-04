@@ -14,7 +14,7 @@ class WalletFormActivity : AppCompatActivity() {
     private var walletId = 0
 
     private val walletDao: WalletDao by lazy {
-        val db = AppDatabase.getInstance(this)
+        val db = AppDatabase.getInstance(this, lifecycleScope)
         db.walletDao()
     }
 
