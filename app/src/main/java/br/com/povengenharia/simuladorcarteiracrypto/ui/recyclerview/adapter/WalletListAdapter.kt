@@ -59,4 +59,13 @@ class WalletListAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateWalletTotalBalance(walletId: Int, totalBalance: Double) {
+        wallets.find { it.id == walletId }?.let {
+            it.totalBalance = totalBalance
+            notifyDataSetChanged()
+        }
+    }
+
+
+
 }

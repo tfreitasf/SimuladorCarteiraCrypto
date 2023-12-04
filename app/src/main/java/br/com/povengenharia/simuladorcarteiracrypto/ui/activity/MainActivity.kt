@@ -10,6 +10,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.database.webclient.StarterRe
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityMainBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CoinRepository
+import br.com.povengenharia.simuladorcarteiracrypto.repository.CryptoWalletRepository
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.WalletListAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,10 @@ class MainActivity : AppCompatActivity() {
     private val walletDao by lazy {
         val db = AppDatabase.getInstance(this, lifecycleScope)
         db.walletDao()
+    }
+    private val cryptoWalletRepository by lazy {
+        val appDatabase = AppDatabase.getInstance(this, lifecycleScope)
+        CryptoWalletRepository(appDatabase, lifecycleScope)
     }
 
 
@@ -54,6 +59,14 @@ class MainActivity : AppCompatActivity() {
             walletDao.getAllWallet().collect { wallets ->
                 adapter.update(wallets)
                 updateMyProperty()
+                wallets.forEach { wallet ->
+                    if (wallet.type == "Crypto") {
+                        cryptoWalletRepository.fetchCryptoForWallet(wallet.id) { _, totalWalletValue ->
+
+                            adapter.updateWalletTotalBalance(wallet.id, totalWalletValue)
+                        }
+                    }
+                }
                 setupRecyclerView()
             }
         }
@@ -119,13 +132,15 @@ class MainActivity : AppCompatActivity() {
         val cryptoWalletsTotalBalance = walletDao.getAllWallet()
             .firstOrNull()
             ?.filter { it.type == "Crypto" }
-            ?.sumOf { it.totalBalance } ?: 0.0
+            ?.map { wallet ->
+                cryptoWalletRepository.calculateTotalWalletValue(wallet.id)
+            }
+            ?.sum() ?: 0.0
 
         val totalBalance = moneyWalletBalance + cryptoWalletsTotalBalance
         val formattedTotalBalance = formatValueDollarCurrency(totalBalance.toString())
 
-        val binding = binding.tvActivityMainPropertyValues
-        binding.text = formattedTotalBalance.toString()
+        binding.tvActivityMainPropertyValues.text = formattedTotalBalance
     }
 
 

@@ -26,7 +26,7 @@ class CryptoListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val walletId = intent.getIntExtra(KEY_WALLET_ID, -1)
-        Toast.makeText(this, "ID da carteira recebida: $walletId", Toast.LENGTH_LONG).show()
+
 
 
         setupRecyclerView(walletId)

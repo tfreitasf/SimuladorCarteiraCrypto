@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityCryptoDetailsBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
+import br.com.povengenharia.simuladorcarteiracrypto.repository.CryptoWalletRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -25,12 +26,15 @@ class CryptoDetailsActivity : AppCompatActivity() {
     private val cryptoFromApiDao by lazy {
         AppDatabase.getInstance(this, lifecycleScope).cryptoFromApiDao()
     }
+    private val cryptoWalletRepository by lazy {
+        val appDatabase = AppDatabase.getInstance(this, lifecycleScope)
+        CryptoWalletRepository(appDatabase, lifecycleScope)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configureBuyButton()
-
 
 
     }
@@ -39,15 +43,12 @@ class CryptoDetailsActivity : AppCompatActivity() {
         super.onResume()
         val cryptoUuid = intent.getStringExtra("EXTRA_COIN_UUID") ?: ""
         val walletId = intent.getIntExtra(KEY_WALLET_ID, -1)
-        Toast.makeText(
-            this,
-            "Carteira ID: $walletId, Crypto ID: $cryptoUuid",
-            Toast.LENGTH_LONG
-        ).show()
+
 
         lifecycleScope.launch {
             fetchCryptoDetails(cryptoUuid)
             fetchMoneyWalletBalance()
+            updateCryptoQuantityAndSymbol(cryptoUuid,walletId)
         }
     }
 
@@ -82,6 +83,14 @@ class CryptoDetailsActivity : AppCompatActivity() {
             putExtra(KEY_WALLET_ID, walletId)
         }
         startActivity(intent)
+    }
+
+    private suspend fun updateCryptoQuantityAndSymbol(cryptoUuid: String, walletId: Int) {
+        val quantity = cryptoWalletRepository.fetchQuantityOfCryptoInWallet(walletId, cryptoUuid)
+        val cryptoInfo = cryptoFromApiDao.getCryptoById(cryptoUuid).firstOrNull()
+
+        binding.tvActivityCryptoDetailsAmountCryptoAvailable.text = quantity.toString()
+        binding.tvActivityCryptoDetailsSymbolCryptoAvailable.text = cryptoInfo?.symbol
     }
 
 }

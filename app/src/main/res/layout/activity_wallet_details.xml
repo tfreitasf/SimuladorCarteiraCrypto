@@ -34,17 +34,18 @@
                 android:id="@+id/tv_activity_wallet_details_property_values"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_activity_wallet_details_balance"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/tv_activity_wallet_details_property"
-                app:layout_constraintTop_toBottomOf="@id/tv_activity_wallet_details_property" />
+                app:layout_constraintTop_toBottomOf="@id/tv_activity_wallet_details_property"
+                tools:text="@string/txt_activity_wallet_details_balance" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_activity_wallet_details_recycleview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -56,12 +57,12 @@
         tools:listitem="@layout/coin_wallet_item" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:layout_width="wrap_content"
         android:id="@+id/fab_activity_wallet_details_buy_crypto"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/carrinhodecompras"
         android:layout_margin="16dp"
         android:text="@string/txt_btn_activity_wallet_details_buy"
+        app:icon="@drawable/carrinhodecompras"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
