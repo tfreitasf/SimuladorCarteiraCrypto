@@ -27,7 +27,7 @@
             android:name=".ui.activity.WalletFormActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.WithdrawActivity"
+            android:name=".ui.activity.WithdrawActivityForm"
             android:exported="false" />
         <activity
             android:name=".ui.activity.DepositFormActivity"

@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityMainBinding
+import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.WalletListAdapter
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun withdrawForm() {
-        val intent = Intent(this, WithdrawActivity::class.java)
+        val intent = Intent(this, WithdrawActivityForm::class.java)
         startActivity(intent)
     }
 
@@ -102,19 +103,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun updateMyProperty() {
-        lifecycleScope.launch {
-            val moneyWalletBalance = walletDao.findById(1).firstOrNull()?.totalBalance ?: 0.0
+        val moneyWalletBalance = walletDao.findById(1).firstOrNull()?.totalBalance ?: 0.0
 
-            val cryptoWalletsTotalBalance = walletDao.getAllWallet()
-                .firstOrNull()
-                ?.filter { it.type == "Crypto" }
-                ?.sumOf { it.totalBalance } ?: 0.0
+        val cryptoWalletsTotalBalance = walletDao.getAllWallet()
+            .firstOrNull()
+            ?.filter { it.type == "Crypto" }
+            ?.sumOf { it.totalBalance } ?: 0.0
 
-            val totalBalance = moneyWalletBalance + cryptoWalletsTotalBalance
+        val totalBalance = moneyWalletBalance + cryptoWalletsTotalBalance
+        val formattedTotalBalance = formatValueDollarCurrency(totalBalance.toString())
 
-            val binding = binding.tvActivityMainPropertyValues
-            binding.text =totalBalance.toString()
-        }
+        val binding = binding.tvActivityMainPropertyValues
+        binding.text = formattedTotalBalance.toString()
+
 
     }
 }

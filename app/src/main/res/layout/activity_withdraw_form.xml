@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.WithdrawActivity">
+    tools:context=".ui.activity.WithdrawActivityForm">
 
     <TextView
         android:id="@+id/tv_activity_withdraw_value"
@@ -45,6 +45,29 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tv_activity_withdraw_current_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_activity_withdraw_form_current_balance"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/tv_activity_withdraw_value"
+        app:layout_constraintTop_toBottomOf="@id/til_activity_withdraw_withdraw_amount" />
+
+    <TextView
+        android:id="@+id/tv_activity_withdraw_form_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:text="00,00"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/tv_activity_withdraw_current_balance"
+        app:layout_constraintTop_toBottomOf="@id/til_activity_withdraw_withdraw_amount" />
+
     <Button
         android:id="@+id/bt_activity_withdraw_withdraw"
         android:layout_width="match_parent"
@@ -53,9 +76,7 @@
         android:text="@string/txt_btn_withdraw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_activity_withdraw_withdraw_amount" />
-
-
+        app:layout_constraintTop_toBottomOf="@id/tv_activity_withdraw_current_balance" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
