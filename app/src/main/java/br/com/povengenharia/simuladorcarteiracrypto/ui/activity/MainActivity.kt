@@ -2,7 +2,6 @@ package br.com.povengenharia.simuladorcarteiracrypto.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +12,9 @@ import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollar
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CoinRepository
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.WalletListAdapter
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,12 +49,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupRecyclerView()
+
         lifecycleScope.launch {
             walletDao.getAllWallet().collect { wallets ->
-                Log.d("MainActivity", "Carteiras atualizadas: $wallets")
                 adapter.update(wallets)
                 updateMyProperty()
+                setupRecyclerView()
             }
         }
         coinRepository.fetchAndUpdateCryptoData()
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 putExtra(KEY_WALLET_ID, it.id)
             }
             startActivity(intent)
+
         }
     }
 

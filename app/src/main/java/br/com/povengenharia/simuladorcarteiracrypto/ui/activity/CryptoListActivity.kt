@@ -1,6 +1,8 @@
 package br.com.povengenharia.simuladorcarteiracrypto.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,12 +25,23 @@ class CryptoListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupRecyclerView()
+        val walletId = intent.getIntExtra(KEY_WALLET_ID, -1)
+        Toast.makeText(this, "ID da carteira recebida: $walletId", Toast.LENGTH_LONG).show()
+
+
+        setupRecyclerView(walletId)
         fetchCryptosFromDatabase()
     }
 
-    private fun setupRecyclerView() {
-        adapter = CoinListAdapter(emptyList(), this)
+    private fun setupRecyclerView(walletId: Int) {
+        val walletId = intent.getIntExtra(KEY_WALLET_ID, -1)
+        adapter = CoinListAdapter(emptyList(), this, walletId) { crypto ->
+            val intent = Intent(this, CryptoDetailsActivity::class.java).apply {
+                putExtra("EXTRA_COIN_UUID", crypto.uuid)
+                putExtra(KEY_WALLET_ID, walletId)
+            }
+            startActivity(intent)
+        }
         binding.rvActivityCryptoListRecyclerview.apply {
             adapter = this@CryptoListActivity.adapter
             layoutManager = LinearLayoutManager(this@CryptoListActivity)

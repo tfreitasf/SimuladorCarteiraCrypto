@@ -9,7 +9,7 @@ data class Transaction(
     val type: TransactionType,
     val amount: Double,
     val walletId: Int,
-    val cryptoId: Int? = null,
+    val cryptoId: String? = null,
     val pricePerUnit: Double? = null,
     val quantity: Double? = null,
     val timestamp: Long = System.currentTimeMillis()

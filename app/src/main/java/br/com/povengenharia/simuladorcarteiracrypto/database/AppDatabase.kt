@@ -14,7 +14,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.model.Transaction
 import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [Wallet::class, Transaction::class, Crypto::class, CryptoFromApi::class], version = 4, exportSchema = false)
+@Database(entities = [Wallet::class, Transaction::class, Crypto::class, CryptoFromApi::class], version = 5, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun walletDao(): WalletDao

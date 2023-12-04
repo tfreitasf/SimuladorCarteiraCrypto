@@ -10,16 +10,20 @@ import br.com.povengenharia.simuladorcarteiracrypto.extensions.TryLoadImage
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
 import br.com.povengenharia.simuladorcarteiracrypto.model.CryptoFromApi
 import br.com.povengenharia.simuladorcarteiracrypto.ui.activity.CryptoDetailsActivity
+import br.com.povengenharia.simuladorcarteiracrypto.ui.activity.KEY_WALLET_ID
 
 class CoinListAdapter(
     private var cryptos: List<CryptoFromApi>,
-    private val context: Context
+    private val context: Context,
+    private val walletId: Int,
+    private val onItemClicked: (CryptoFromApi) -> Unit
 ) : RecyclerView.Adapter<CoinListAdapter.ViewHolder>() {
 
 
     class ViewHolder(
         private val binding: CoinItemBinding,
-        private val context: Context
+        private val context: Context,
+        private val walletId: Int
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(crypto: CryptoFromApi) {
@@ -30,6 +34,7 @@ class CoinListAdapter(
             itemView.setOnClickListener {
                 val intent = Intent(context, CryptoDetailsActivity::class.java).apply {
                     putExtra("EXTRA_COIN_UUID", crypto.uuid)
+                    putExtra(KEY_WALLET_ID, walletId)
                 }
                 context.startActivity(intent)
             }
@@ -38,7 +43,7 @@ class CoinListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = CoinItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, context)
+        return ViewHolder(binding, context, walletId)
     }
 
     override fun getItemCount(): Int = cryptos.size
