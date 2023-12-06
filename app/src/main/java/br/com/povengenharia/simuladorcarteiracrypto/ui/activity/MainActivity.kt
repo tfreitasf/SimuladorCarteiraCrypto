@@ -56,13 +56,17 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         lifecycleScope.launch {
+
+            coinRepository.fetchAndUpdateCryptoData()
+
+
+
             walletDao.getAllWallet().collect { wallets ->
                 adapter.update(wallets)
                 updateMyProperty()
                 wallets.forEach { wallet ->
                     if (wallet.type == "Crypto") {
                         cryptoWalletRepository.fetchCryptoForWallet(wallet.id) { _, totalWalletValue ->
-
                             adapter.updateWalletTotalBalance(wallet.id, totalWalletValue)
                         }
                     }
@@ -70,8 +74,7 @@ class MainActivity : AppCompatActivity() {
                 setupRecyclerView()
             }
         }
-        coinRepository.fetchAndUpdateCryptoData()
-
+//        coinRepository.fetchAndUpdateCryptoData()
     }
 
     private fun setupRecyclerView() {

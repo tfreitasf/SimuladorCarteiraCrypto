@@ -13,7 +13,8 @@ class WalletListAdapter(
     private val context: Context,
     private val scope: CoroutineScope,
     wallets: List<Wallet> = emptyList(),
-    var whenClickOnItem: (wallet: Wallet) -> Unit = {}
+    var whenClickOnItem: (wallet: Wallet) -> Unit = {},
+    var whenClickDelete: (wallet: Wallet) -> Unit = {}
 ) : RecyclerView.Adapter<WalletListAdapter.ViewHolder>() {
 
     val wallets = wallets.toMutableList()

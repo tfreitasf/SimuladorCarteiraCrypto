@@ -35,7 +35,7 @@ class CryptoDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configureBuyButton()
-
+        configureSellButton()
 
     }
 
@@ -48,7 +48,7 @@ class CryptoDetailsActivity : AppCompatActivity() {
         lifecycleScope.launch {
             fetchCryptoDetails(cryptoUuid)
             fetchMoneyWalletBalance()
-            updateCryptoQuantityAndSymbol(cryptoUuid,walletId)
+            updateCryptoQuantityAndSymbol(cryptoUuid, walletId)
         }
     }
 
@@ -83,6 +83,37 @@ class CryptoDetailsActivity : AppCompatActivity() {
             putExtra(KEY_WALLET_ID, walletId)
         }
         startActivity(intent)
+    }
+
+    private fun configureSellButton() {
+        val button = binding.btnActivityCryptoDetailsSell
+        button.setOnClickListener {
+            sellForm()
+        }
+    }
+
+    private fun sellForm() {
+        val cryptoUuid = intent.getStringExtra("EXTRA_COIN_UUID") ?: ""
+        val walletId = intent.getIntExtra(KEY_WALLET_ID, -1)
+
+        lifecycleScope.launch {
+            val quantity =
+                cryptoWalletRepository.fetchQuantityOfCryptoInWallet(walletId, cryptoUuid)
+            if (quantity > 0) {
+                val intent =
+                    Intent(this@CryptoDetailsActivity, CryptoSellFormActivity::class.java).apply {
+                        putExtra("EXTRA_COIN_UUID", cryptoUuid)
+                        putExtra(KEY_WALLET_ID, walletId)
+                    }
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this@CryptoDetailsActivity,
+                    "Você não possui esta criptomoeda nesta carteira",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private suspend fun updateCryptoQuantityAndSymbol(cryptoUuid: String, walletId: Int) {
