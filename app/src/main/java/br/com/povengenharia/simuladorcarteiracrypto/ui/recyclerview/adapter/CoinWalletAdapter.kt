@@ -6,20 +6,22 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.CoinWalletItemBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.TryLoadImage
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
-import br.com.povengenharia.simuladorcarteiracrypto.model.CoinWalletItem
+import br.com.povengenharia.simuladorcarteiracrypto.model.Crypto
 
-class CoinWalletAdapter : RecyclerView.Adapter<CoinWalletAdapter.ViewHolder>() {
+class CoinWalletAdapter(
+    cryptoWallet: List<Crypto> = emptyList()
+) : RecyclerView.Adapter<CoinWalletAdapter.ViewHolder>() {
 
-    private var items: List<CoinWalletItem> = listOf()
+    private var cryptoWallet = cryptoWallet.toMutableList()
 
     class ViewHolder(private val binding: CoinWalletItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CoinWalletItem) {
-            binding.ivCoinWalletItemSymbol.TryLoadImage(url = item.iconUrl) // Correção aqui
-            binding.tvCoinWalletItemName.text = item.name
-            binding.tvCoinWalletItemPrice.text = formatValueDollarCurrency(item.totalValue.toString())
-            binding.tvCoinWalletItemSatoshiSymbol.text = item.symbol
-            binding.tvCoinWalletItemSatoshi.text = item.quantity.toString()
+        fun bind(crypto: Crypto) {
+            binding.ivCoinWalletItemSymbol.TryLoadImage(url = crypto.iconUrl)
+            binding.tvCoinWalletItemName.text = crypto.name
+            binding.tvCoinWalletItemPrice.text = formatValueDollarCurrency(crypto.price.toString())
+            binding.tvCoinWalletItemSatoshiSymbol.text = crypto.symbol
+            binding.tvCoinWalletItemSatoshi.text = crypto.quantityOwned.toString()
         }
     }
 
@@ -30,13 +32,13 @@ class CoinWalletAdapter : RecyclerView.Adapter<CoinWalletAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(cryptoWallet[position])
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = cryptoWallet.size
 
-    fun updateList(newItems: List<CoinWalletItem>) {
-        items = newItems
+    fun updateList(newItems: List<Crypto>) {
+        cryptoWallet = newItems.toMutableList()
         notifyDataSetChanged()
     }
 }

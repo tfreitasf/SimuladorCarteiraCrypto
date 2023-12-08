@@ -33,8 +33,8 @@ class WalletDetailsActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        val walletID = intent.getIntExtra(KEY_WALLET_ID, -1)
         super.onResume()
+        val walletID = intent.getIntExtra(KEY_WALLET_ID, -1)
         lifecycleScope.launch {
             configureBuyFab()
             setupRecyclerView()
@@ -48,9 +48,9 @@ class WalletDetailsActivity : AppCompatActivity() {
     }
 
     private fun fetchCryptoForWallet(walletId: Int) {
-        cryptoWalletRepository.fetchCryptoForWallet(walletId) { coinWalletItems, totalWalletValue ->
-            val cryptoInWallet = coinWalletItems.filter {
-                it.quantity > 0.00000000 && it.totalValue > 0.0
+        cryptoWalletRepository.fetchCryptoForWallet(walletId) { cryptos, totalWalletValue ->
+            val cryptoInWallet = cryptos.filter {
+                it.quantityOwned > 0.0 && it.price > 0.0
             }
             adapter.updateList(cryptoInWallet)
             updateTotalCryptoValue(totalWalletValue)
@@ -58,7 +58,8 @@ class WalletDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateTotalCryptoValue(totalValue: Double) {
-        binding.tvActivityWalletDetailsPropertyValues.text = formatValueDollarCurrency(totalValue.toString())
+        binding.tvActivityWalletDetailsPropertyValues.text =
+            formatValueDollarCurrency(totalValue.toString())
     }
 
     private fun configureBuyFab() {

@@ -55,8 +55,6 @@ class CryptoBuyFormActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun buyCrypto(cryptoWalletId: Int, cryptoUuid: String, amount: Double) {
         lifecycleScope.launch {
             val moneyWallet = walletDao.findById(1).firstOrNull()
@@ -106,7 +104,6 @@ class CryptoBuyFormActivity : AppCompatActivity() {
                     val updatedCryptoBalance = newQuantityOwned * cryptoPrice
                     walletDao.updateWallet(cryptoWallet.copy(totalBalance = updatedCryptoBalance))
 
-
                     Toast.makeText(
                         this@CryptoBuyFormActivity,
                         "Compra realizada com sucesso!",
@@ -119,7 +116,6 @@ class CryptoBuyFormActivity : AppCompatActivity() {
                         "Saldo insuficiente na carteira",
                         Toast.LENGTH_SHORT
                     ).show()
-
                 }
             } else {
                 Toast.makeText(
@@ -128,10 +124,7 @@ class CryptoBuyFormActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
         }
     }
-
-
 }
 
