@@ -1,4 +1,4 @@
-# Simulador de Carteira de Criptomoedas V.1.0.0
+# Simulador de Carteira de Criptomoedas V.1.0.1
 
 Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin. Ele permite aos usuários simular transações de compra e venda de diferentes criptomoedas, gerenciar carteiras virtuais e acompanhar o desempenho de seus investimentos.
 
@@ -16,6 +16,10 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 - Compra e venda de criptomoedas.
 - Gestão de carteiras virtuais.
 - Acompanhamento do desempenho de investimentos.
+
+## 🌟 Novidades na versão 1.0.1
+- Ocultação da carteira de dinheiro: A carteira destinada exclusivamente para dinheiro agora não é mais exibida na lista principal de carteiras, proporcionando uma visualização mais focada nas carteiras de criptomoedas.
+- Filtragem de criptomoedas com saldo zero: Criptomoedas com saldo zero, resultantes de vendas ou outras transações, são automaticamente ocultadas da lista de criptomoedas na carteira, mantendo a interface limpa e focada nos ativos atuais.
 
 ## 🔨 Técnicas e tecnologias no projeto
 - `Kotlin`: Linguagem de programação utilizada para desenvolver o aplicativo.
@@ -37,6 +41,16 @@ Para usar este aplicativo, siga estes passos:
 - Abra o aplicativo.
 - Siga as instruções na tela para criar sua carteira.
 - Comece a simular transações de criptomoedas.
+
+## 📝 Histórico de Versões
+
+### Versão 1.0.1 (08/12/2023)
+- Ocultação da carteira de dinheiro na listagem de carteiras.
+- Filtragem de criptomoedas com saldo zero na visualização de detalhes da carteira.
+
+### Versão 1.0.0 (04/12/2023)
+- Lançamento inicial do aplicativo.
+- Funcionalidades principais incluem: gerenciamento de carteiras de criptomoedas e simulação de transações de compra e venda.
 
 ## 📧 Contato
 - Para mais informações, entre em contato através de tfreitasf@gmail.com.
