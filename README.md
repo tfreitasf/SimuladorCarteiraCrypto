@@ -4,8 +4,8 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 
 ## 🎥 Demonstração
 <p float="left">  
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/91f1468c-f1c2-4e8d-8c97-a85879a3efe7" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/e835e1d9-274e-41a1-a728-89911511fc4d" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/9436c923-b0cc-43b4-a6ef-bc064799a188" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/c67d3aac-4d40-4b19-9fe7-facf34dd5de6" width="300" />
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/ae9d5ab9-576d-4b07-8907-59ad00f94eb6" width="300" />
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/483e0ada-c74e-4991-ba2c-3a7291168bef" width="300" />
 </p>
