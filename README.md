@@ -12,22 +12,32 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 
 
 ## ✔️ Funcionalidades
-- Deposito e saques de dinheiro
-- Compra e venda de criptomoedas
-- Gestão de carteiras virtuais
-- Acompanhamento do desempenho de investimentos
+- Depósito e saques de dinheiro.
+- Compra e venda de criptomoedas.
+- Gestão de carteiras virtuais.
+- Acompanhamento do desempenho de investimentos.
 
 ## 🔨 Técnicas e tecnologias no projeto
 - `Kotlin`: Linguagem de programação utilizada para desenvolver o aplicativo.
-- `View Binding`: busca de views do layout de forma segura
-- `Coil`: carregar imagens via requisição HTTP
+- `View Binding`: busca de views do layout de forma segura.
+- `Coil`: carregar imagens via requisição HTTP.
 - `Extension functions`: adicionar comportamentos em outras classes para reutilizá-los como funções de extensão para carregar imagens e formatar valores em moeda.
-- - `Room Database`: Persistência de dados com Room para armazenar os produtos localmente.
+- `Room Database`: Persistência de dados com Room para armazenar os produtos localmente.
 - `Flow`: Para lidar com sequências assíncronas de dados.
-- `Retrofit`: para chamadas de API
+- `Retrofit`: para chamadas de API.
 
 ## 🚀 Futuras Implementações
 - Implementação de autenticação de usuários e controle de acesso.
-- Sincronização com a nuvem para backup
+- Sincronização com a nuvem para backup.
 
+
+## 📝 Uso
+Para usar este aplicativo, siga estes passos:
+
+- Abra o aplicativo.
+- Siga as instruções na tela para criar sua carteira.
+- Comece a simular transações de criptomoedas.
+
+## 📧 Contato
+- Para mais informações, entre em contato através de tfreitasf@gmail.com.
 
