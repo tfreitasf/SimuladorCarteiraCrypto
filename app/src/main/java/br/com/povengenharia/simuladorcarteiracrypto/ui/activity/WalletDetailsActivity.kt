@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityWalletDetailsBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
-import br.com.povengenharia.simuladorcarteiracrypto.model.CoinWalletItem
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CryptoWalletRepository
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.CoinWalletAdapter
 import kotlinx.coroutines.launch
@@ -50,7 +49,10 @@ class WalletDetailsActivity : AppCompatActivity() {
 
     private fun fetchCryptoForWallet(walletId: Int) {
         cryptoWalletRepository.fetchCryptoForWallet(walletId) { coinWalletItems, totalWalletValue ->
-            adapter.updateList(coinWalletItems)
+            val cryptoInWallet = coinWalletItems.filter {
+                it.quantity > 0.00000000 && it.totalValue > 0.0
+            }
+            adapter.updateList(cryptoInWallet)
             updateTotalCryptoValue(totalWalletValue)
         }
     }

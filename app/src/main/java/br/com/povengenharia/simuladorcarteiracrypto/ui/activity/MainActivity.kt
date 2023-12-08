@@ -61,10 +61,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
-            walletDao.getAllWallet().collect { wallets ->
-                adapter.update(wallets)
+            walletDao.getAllWallet().collect { allwallets ->
+                val cryptoWallets = allwallets.filter { it.type == "Crypto" }
+                adapter.update(cryptoWallets)
                 updateMyProperty()
-                wallets.forEach { wallet ->
+                cryptoWallets.forEach { wallet ->
                     if (wallet.type == "Crypto") {
                         cryptoWalletRepository.fetchCryptoForWallet(wallet.id) { _, totalWalletValue ->
                             adapter.updateWalletTotalBalance(wallet.id, totalWalletValue)
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                 setupRecyclerView()
             }
         }
-//        coinRepository.fetchAndUpdateCryptoData()
+
     }
 
     private fun setupRecyclerView() {
