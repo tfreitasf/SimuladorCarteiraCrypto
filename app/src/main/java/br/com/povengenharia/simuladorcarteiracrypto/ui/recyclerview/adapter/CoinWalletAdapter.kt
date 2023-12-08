@@ -9,19 +9,25 @@ import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollar
 import br.com.povengenharia.simuladorcarteiracrypto.model.Crypto
 
 class CoinWalletAdapter(
-    cryptoWallet: List<Crypto> = emptyList()
+    cryptoWallet: List<Crypto> = emptyList(),
+    var whenClickOnItem: (crypto: Crypto) -> Unit = {}
 ) : RecyclerView.Adapter<CoinWalletAdapter.ViewHolder>() {
 
     private var cryptoWallet = cryptoWallet.toMutableList()
 
-    class ViewHolder(private val binding: CoinWalletItemBinding) :
+    inner class ViewHolder(private val binding: CoinWalletItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(crypto: Crypto) {
             binding.ivCoinWalletItemSymbol.TryLoadImage(url = crypto.iconUrl)
             binding.tvCoinWalletItemName.text = crypto.name
             binding.tvCoinWalletItemPrice.text = formatValueDollarCurrency(crypto.price.toString())
             binding.tvCoinWalletItemSatoshiSymbol.text = crypto.symbol
             binding.tvCoinWalletItemSatoshi.text = crypto.quantityOwned.toString()
+
+            itemView.setOnClickListener {
+                whenClickOnItem(crypto)
+            }
         }
     }
 

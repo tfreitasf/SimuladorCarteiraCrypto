@@ -45,6 +45,17 @@ class WalletDetailsActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         binding.rvActivityWalletDetailsRecycleview.layoutManager = LinearLayoutManager(this)
         binding.rvActivityWalletDetailsRecycleview.adapter = adapter
+
+        val walletID = intent.getIntExtra(KEY_WALLET_ID, -1)
+
+        adapter.whenClickOnItem = {crypto ->
+            val intent = Intent(this, CryptoDetailsActivity::class.java).apply {
+                putExtra("EXTRA_COIN_UUID", crypto.uuid)
+                putExtra(KEY_WALLET_ID, walletID)
+            }
+            startActivity(intent)
+
+        }
     }
 
     private fun fetchCryptoForWallet(walletId: Int) {
