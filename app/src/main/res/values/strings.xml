@@ -15,7 +15,7 @@
     <string name="txt_activity_deposit_amount_prompt">Quanto você deseja depositar?</string>
     <string name="txt_activity_crypto_buy_form_amount_prompt">Qual valor você deseja comprar?</string>
     <string name="txt_activity_crypto_sell_form_amount_prompt">Qual quantidade você deseja vender?</string>
-    <string name="txt_btn_activity_wallet_form_save">salvar</string>
+    <string name="txt_btn_activity_wallet_form_save">SALVAR</string>
     <string name="txt_hint_activity_wallet_form_name">Digite o nome</string>
     <string name="txt_hint_activity_wallet_form_">Digite a descrição</string>
     <string name="txt_activity_wallet_form_title">Cadastrar Carteira</string>
@@ -33,4 +33,7 @@
     <string name="txt_btn_activity_wallet_details_sell">VENDER</string>
     <string name="txt_activity_withdraw_form_current_balance">Saldo Atual </string>
     <string name="txt_activity_crypto_sell_form_quantity">Quantidade</string>
+    <string name="txt_menu_wallet_details_edit">Editar</string>
+    <string name="txt_wallet_form_activity_edit_wallet">Alterar Carteira</string>
+    <string name="txt_wallet_form_activity_save_btn">SALVAR</string>
 </resources>

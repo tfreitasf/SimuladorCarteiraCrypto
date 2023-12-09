@@ -3,6 +3,7 @@ package br.com.povengenharia.simuladorcarteiracrypto.repository
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.model.Crypto
 import br.com.povengenharia.simuladorcarteiracrypto.model.TransactionType
+import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ class CryptoWalletRepository(
 
     private val transactionDao = appDatabase.transactionDao()
     private val cryptoFromApiDao = appDatabase.cryptoFromApiDao()
+    private val walletDao = appDatabase.walletDao()
 
 
     fun fetchCryptoForWallet(walletId: Int, onResult: (List<Crypto>, Double) -> Unit) {
@@ -86,6 +88,10 @@ class CryptoWalletRepository(
             totalQuantity += amountChange
         }
         return totalQuantity
+    }
+
+    suspend fun getWalletById(walletId: Int): Wallet? {
+        return walletDao.findById(walletId).firstOrNull()
     }
 
 
