@@ -42,7 +42,8 @@ class WalletListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = WalletItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            WalletItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

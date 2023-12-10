@@ -3,6 +3,7 @@ package br.com.povengenharia.simuladorcarteiracrypto.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import br.com.povengenharia.simuladorcarteiracrypto.R
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.database.local.dao.WalletDao
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityWalletFormBinding
@@ -26,14 +27,27 @@ class WalletFormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         saveNewWallet()
+
+        intent.getParcelableExtra<Wallet>(KEY_WALLET_ID)?.let { walletLoad ->
+            binding.tvactivityWalletFormTitle.setText(getString(R.string.txt_wallet_form_activity_edit_wallet))
+            walletId = walletLoad.id
+            binding.etActivityWalletFormName.setText(walletLoad.name)
+            binding.etActivityWalletFormDescription.setText(walletLoad.description)
+        }
     }
+
 
     private fun saveNewWallet() {
         val btnSave = binding.btActivityWalletFormSave
         btnSave.setOnClickListener {
-            val newWallet = createNewWalletFromForm()
+
+            val wallet = createNewWalletFromForm()
             lifecycleScope.launch {
-                walletDao.addWallet(newWallet)
+                if (walletId > 0) {
+                    walletDao.updateWallet(wallet)
+                } else {
+                    walletDao.addWallet(wallet)
+                }
                 finish()
             }
         }

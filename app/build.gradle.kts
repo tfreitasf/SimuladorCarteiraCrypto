@@ -63,6 +63,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-svg:2.5.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 

@@ -1,8 +1,9 @@
 package br.com.povengenharia.simuladorcarteiracrypto.repository
 
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
-import br.com.povengenharia.simuladorcarteiracrypto.model.CoinWalletItem
+import br.com.povengenharia.simuladorcarteiracrypto.model.Crypto
 import br.com.povengenharia.simuladorcarteiracrypto.model.TransactionType
+import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -14,8 +15,10 @@ class CryptoWalletRepository(
 
     private val transactionDao = appDatabase.transactionDao()
     private val cryptoFromApiDao = appDatabase.cryptoFromApiDao()
+    private val walletDao = appDatabase.walletDao()
 
-    fun fetchCryptoForWallet(walletId: Int, onResult: (List<CoinWalletItem>, Double) -> Unit) {
+
+    fun fetchCryptoForWallet(walletId: Int, onResult: (List<Crypto>, Double) -> Unit) {
         scope.launch {
             val transactions = transactionDao.getTransactionsForWalletByType(
                 walletId,
@@ -29,7 +32,7 @@ class CryptoWalletRepository(
                     cryptoQuantities.getOrDefault(transaction.cryptoId ?: continue, 0.0)
                 val amountChange = if (transaction.type == TransactionType.BUY) transaction.quantity
                     ?: 0.0 else -(transaction.quantity ?: 0.0)
-                cryptoQuantities[transaction.cryptoId!!] = currentAmount + amountChange
+                cryptoQuantities[transaction.cryptoId] = currentAmount + amountChange
             }
 
             val coinWalletItems = cryptoQuantities.mapNotNull { (cryptoId, quantity) ->
@@ -37,12 +40,14 @@ class CryptoWalletRepository(
                     cryptoFromApiDao.getCryptoById(cryptoId).firstOrNull() ?: return@mapNotNull null
                 val totalValue = quantity * cryptoInfo.price.toDouble()
                 totalWalletValue += totalValue
-                CoinWalletItem(
-                    iconUrl = cryptoInfo.iconUrl,
-                    name = cryptoInfo.name,
+                Crypto(
+                    uuid = cryptoInfo.uuid,
                     symbol = cryptoInfo.symbol,
-                    quantity = quantity,
-                    totalValue = totalValue
+                    name = cryptoInfo.name,
+                    iconUrl = cryptoInfo.iconUrl,
+                    price = cryptoInfo.price.toDouble(),
+                    quantityOwned = quantity
+
                 )
             }
 
@@ -61,7 +66,7 @@ class CryptoWalletRepository(
                 cryptoQuantities.getOrDefault(transaction.cryptoId ?: return@forEach, 0.0)
             val amountChange = if (transaction.type == TransactionType.BUY) transaction.quantity
                 ?: 0.0 else -(transaction.quantity ?: 0.0)
-            cryptoQuantities[transaction.cryptoId!!] = currentAmount + amountChange
+            cryptoQuantities[transaction.cryptoId] = currentAmount + amountChange
         }
 
         return cryptoQuantities.mapNotNull { (cryptoId, quantity) ->
@@ -83,6 +88,10 @@ class CryptoWalletRepository(
             totalQuantity += amountChange
         }
         return totalQuantity
+    }
+
+    suspend fun getWalletById(walletId: Int): Wallet? {
+        return walletDao.findById(walletId).firstOrNull()
     }
 
 

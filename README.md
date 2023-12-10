@@ -1,14 +1,17 @@
-# Simulador de Carteira de Criptomoedas V.1.0.1
+# Simulador de Carteira de Criptomoedas V.1.1.0
 
 Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin. Ele permite aos usuários simular transações de compra e venda de diferentes criptomoedas, gerenciar carteiras virtuais e acompanhar o desempenho de seus investimentos.
 
 ## 🎥 Demonstração
 <p float="left">  
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/9436c923-b0cc-43b4-a6ef-bc064799a188" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/c67d3aac-4d40-4b19-9fe7-facf34dd5de6" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/ae9d5ab9-576d-4b07-8907-59ad00f94eb6" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a5d06c5a-d243-4e72-902a-26724cc6cdc1" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a61806ad-055a-497b-9892-1cf75b8ba0b9" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/ef2c74ff-4614-4408-9373-472861509e8e" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/721ab929-11fd-4752-a3f7-d50c7bc15b31" width="300" />
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/483e0ada-c74e-4991-ba2c-3a7291168bef" width="300" />
 </p>
+
+
 
 
 ## ✔️ Funcionalidades
@@ -17,9 +20,12 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 - Gestão de carteiras virtuais.
 - Acompanhamento do desempenho de investimentos.
 
-## 🌟 Novidades na versão 1.0.1
-- Ocultação da carteira de dinheiro: A carteira destinada exclusivamente para dinheiro agora não é mais exibida na lista principal de carteiras, proporcionando uma visualização mais focada nas carteiras de criptomoedas.
-- Filtragem de criptomoedas com saldo zero: Criptomoedas com saldo zero, resultantes de vendas ou outras transações, são automaticamente ocultadas da lista de criptomoedas na carteira, mantendo a interface limpa e focada nos ativos atuais.
+## 🌟 Novidades na versão 1.1.0
+- Suporte para imagens SVG no carregamento de ícones de criptomoedas com Coil.
+- Implementação de ActionBar em WalletDetailsActivity, com opções de edição de carteira.
+- Capacidade de abrir detalhes de uma criptomoeda específica ao clicar em um item de cryptomoedas da carteira.
+- Atualização da lógica de carregamento e exibição de criptomoedas para usar o modelo Crypto.
+- Parcelização do modelo Wallet para facilitar o transporte de dados entre Activities.: Criptomoedas com saldo zero, resultantes de vendas ou outras transações, são automaticamente ocultadas da lista de criptomoedas na carteira, mantendo a interface limpa e focada nos ativos atuais.
 
 ## 🔨 Técnicas e tecnologias no projeto
 - `Kotlin`: Linguagem de programação utilizada para desenvolver o aplicativo.
@@ -43,6 +49,12 @@ Para usar este aplicativo, siga estes passos:
 - Comece a simular transações de criptomoedas.
 
 ## 📝 Histórico de Versões
+
+### Versão 1.1.0 (09/12/2023)
+- Adição de ActionBar e opções de edição em WalletDetailsActivity.
+- Suporte para carregamento de imagens SVG com Coil.
+- Implementação de detalhes de criptomoedas ao clicar em um item.
+- Atualizações no modelo Crypto e Wallet para melhorar a funcionalidade.
 
 ### Versão 1.0.1 (08/12/2023)
 - Ocultação da carteira de dinheiro na listagem de carteiras.

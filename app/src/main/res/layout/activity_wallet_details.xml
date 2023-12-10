@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.WalletDetailsActivity">
 
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_activity_wallet_details"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/design_default_color_primary"
+        android:elevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_activity_wallet_details_balance_crypto_assets"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -14,7 +26,7 @@
         android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_activity_wallet_details">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
