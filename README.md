@@ -1,4 +1,4 @@
-# Simulador de Carteira de Criptomoedas V.1.0.1
+# Simulador de Carteira de Criptomoedas V.1.1.0
 
 Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin. Ele permite aos usuários simular transações de compra e venda de diferentes criptomoedas, gerenciar carteiras virtuais e acompanhar o desempenho de seus investimentos.
 
@@ -17,9 +17,12 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 - Gestão de carteiras virtuais.
 - Acompanhamento do desempenho de investimentos.
 
-## 🌟 Novidades na versão 1.0.1
-- Ocultação da carteira de dinheiro: A carteira destinada exclusivamente para dinheiro agora não é mais exibida na lista principal de carteiras, proporcionando uma visualização mais focada nas carteiras de criptomoedas.
-- Filtragem de criptomoedas com saldo zero: Criptomoedas com saldo zero, resultantes de vendas ou outras transações, são automaticamente ocultadas da lista de criptomoedas na carteira, mantendo a interface limpa e focada nos ativos atuais.
+## 🌟 Novidades na versão 1.1.0
+- Suporte para imagens SVG no carregamento de ícones de criptomoedas com Coil.
+- Implementação de ActionBar em WalletDetailsActivity, com opções de edição de carteira.
+- Capacidade de abrir detalhes de uma criptomoeda específica ao clicar em um item de cryptomoedas da carteira.
+- Atualização da lógica de carregamento e exibição de criptomoedas para usar o modelo Crypto.
+- Parcelização do modelo Wallet para facilitar o transporte de dados entre Activities.: Criptomoedas com saldo zero, resultantes de vendas ou outras transações, são automaticamente ocultadas da lista de criptomoedas na carteira, mantendo a interface limpa e focada nos ativos atuais.
 
 ## 🔨 Técnicas e tecnologias no projeto
 - `Kotlin`: Linguagem de programação utilizada para desenvolver o aplicativo.
@@ -43,6 +46,12 @@ Para usar este aplicativo, siga estes passos:
 - Comece a simular transações de criptomoedas.
 
 ## 📝 Histórico de Versões
+
+### Versão 1.1.0 (09/12/2023)
+- Adição de ActionBar e opções de edição em WalletDetailsActivity.
+- Suporte para carregamento de imagens SVG com Coil.
+- Implementação de detalhes de criptomoedas ao clicar em um item.
+- Atualizações no modelo Crypto e Wallet para melhorar a funcionalidade.
 
 ### Versão 1.0.1 (08/12/2023)
 - Ocultação da carteira de dinheiro na listagem de carteiras.
