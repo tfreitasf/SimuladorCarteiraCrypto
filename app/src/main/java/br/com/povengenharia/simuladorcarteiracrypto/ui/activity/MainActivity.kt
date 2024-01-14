@@ -1,14 +1,22 @@
 package br.com.povengenharia.simuladorcarteiracrypto.ui.activity
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.com.povengenharia.simuladorcarteiracrypto.R
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.database.webclient.StarterRetrofit
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityMainBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
+import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CoinRepository
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CryptoWalletRepository
 import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.WalletListAdapter
@@ -46,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.pbActivityMainProressbar.visibility = View.VISIBLE
         setContentView(binding.root)
         configureDepositFab()
         configureWithdrawFab()
@@ -55,28 +64,84 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        lifecycleScope.launch {
-
-            coinRepository.fetchAndUpdateCryptoData()
-
-
-
-            walletDao.getAllWallet().collect { allwallets ->
-                val cryptoWallets = allwallets.filter { it.type == "Crypto" }
-                adapter.update(cryptoWallets)
-                updateMyProperty()
-                cryptoWallets.forEach { wallet ->
-                    if (wallet.type == "Crypto") {
-                        cryptoWalletRepository.fetchCryptoForWallet(wallet.id) { _, totalWalletValue ->
-                            adapter.updateWalletTotalBalance(wallet.id, totalWalletValue)
-                        }
-                    }
-                }
-                setupRecyclerView()
-            }
+        if (!checkForInternet(this)) {
+            updateUIBasedOnInternetAvailability()
+            return
         }
 
+        lifecycleScope.launch {
+            coinRepository.fetchAndUpdateCryptoData()
+            getAllWallet()
+        }
     }
+
+    private fun getAllWallet() {
+        lifecycleScope.launch {
+            try {
+
+                walletDao.getAllWallet().collect { wallets ->
+                    setupWalletList(wallets)
+                    binding.pbActivityMainProressbar.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.txt_response_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.e("MainActivity", "Error fetching wallets", e)
+                binding.pbActivityMainProressbar.visibility = View.GONE
+            }
+        }
+    }
+
+    private suspend fun setupWalletList(wallets: List<Wallet>) {
+        val cryptoWallets = wallets.filter { it.type == "Crypto" }
+        adapter.update(cryptoWallets)
+        updateMyProperty()
+        cryptoWallets.forEach { wallet ->
+            if (wallet.type == "Crypto") {
+                cryptoWalletRepository.fetchCryptoForWallet(wallet.id) { _, totalWalletValue ->
+                    adapter.updateWalletTotalBalance(wallet.id, totalWalletValue)
+                }
+            }
+        }
+        setupRecyclerView()
+        binding.rvMainActivityRecyclerview.visibility = View.VISIBLE
+
+        binding.pbActivityMainProressbar.visibility = View.GONE
+        binding.ivActivityMainSignalNoData.visibility = View.GONE
+        binding.tvActivityMainSignalNoData.visibility = View.GONE
+    }
+
+
+    private fun checkForInternet(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return when {
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            else -> false
+        }
+    }
+
+    private fun updateUIBasedOnInternetAvailability() {
+        if (checkForInternet(this)) {
+            binding.rvMainActivityRecyclerview.visibility = View.VISIBLE
+            binding.pbActivityMainProressbar.visibility = View.GONE
+            binding.ivActivityMainSignalNoData.visibility = View.GONE
+            binding.tvActivityMainSignalNoData.visibility = View.GONE
+        } else {
+            binding.rvMainActivityRecyclerview.visibility = View.GONE
+            binding.pbActivityMainProressbar.visibility = View.GONE
+            binding.ivActivityMainSignalNoData.visibility = View.VISIBLE
+            binding.tvActivityMainSignalNoData.visibility = View.VISIBLE
+        }
+    }
+
 
     private fun setupRecyclerView() {
         val recyclerView = binding.rvMainActivityRecyclerview
@@ -97,7 +162,14 @@ class MainActivity : AppCompatActivity() {
     private fun configureDepositFab() {
         val fab = binding.fabActivityMainDeposit
         fab.setOnClickListener {
-            depositForm()
+            if (checkForInternet(this)) {
+                depositForm()
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.txt_no_internet_connection), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -109,7 +181,14 @@ class MainActivity : AppCompatActivity() {
     private fun configureWithdrawFab() {
         val fab = binding.fabActivityMainWithdraw
         fab.setOnClickListener {
-            withdrawForm()
+            if (checkForInternet(this)) {
+                withdrawForm()
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.txt_no_internet_connection), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -121,7 +200,14 @@ class MainActivity : AppCompatActivity() {
     private fun configureAddWalletFormFab() {
         val fab = binding.efabActivityMainAddWallet
         fab.setOnClickListener {
-            addWalletForm()
+            if (checkForInternet(this)) {
+                addWalletForm()
+            }else{
+                Toast.makeText(
+                    this,
+                    getString(R.string.txt_no_internet_connection), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

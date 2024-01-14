@@ -36,4 +36,7 @@
     <string name="txt_menu_wallet_details_edit">Editar</string>
     <string name="txt_wallet_form_activity_edit_wallet">Alterar Carteira</string>
     <string name="txt_wallet_form_activity_save_btn">SALVAR</string>
+    <string name="txt_activity_main_signal_no_data">Ops, Internet não Disponível</string>
+    <string name="txt_response_error">Algo deu errado, por favor tente novamente mais tarde</string>
+    <string name="txt_no_internet_connection">Ops! Não foi possível completar a ação. Por favor, verifique sua conexão com a internet.</string>
 </resources>
