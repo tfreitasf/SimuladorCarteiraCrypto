@@ -1,17 +1,15 @@
-# Simulador de Carteira de Criptomoedas V.1.1.0
+# Simulador de Carteira de Criptomoedas V.1.1.1
 
 Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin. Ele permite aos usuários simular transações de compra e venda de diferentes criptomoedas, gerenciar carteiras virtuais e acompanhar o desempenho de seus investimentos.
 
 ## 🎥 Demonstração
 <p float="left">  
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a5d06c5a-d243-4e72-902a-26724cc6cdc1" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a61806ad-055a-497b-9892-1cf75b8ba0b9" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a69fb18f-9785-48c9-a604-e16ce989343d" width="300" />
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/ef2c74ff-4614-4408-9373-472861509e8e" width="300" />
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/721ab929-11fd-4752-a3f7-d50c7bc15b31" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/483e0ada-c74e-4991-ba2c-3a7291168bef" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/b8fcd8f6-57cf-4e12-8121-18ffcb746f3b" width="300" />
 </p>
-
-
 
 
 ## ✔️ Funcionalidades
