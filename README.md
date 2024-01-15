@@ -4,11 +4,14 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 
 ## 🎥 Demonstração
 <p float="left">  
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/9436c923-b0cc-43b4-a6ef-bc064799a188" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/c67d3aac-4d40-4b19-9fe7-facf34dd5de6" width="300" />
-  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/ae9d5ab9-576d-4b07-8907-59ad00f94eb6" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a5d06c5a-d243-4e72-902a-26724cc6cdc1" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/a61806ad-055a-497b-9892-1cf75b8ba0b9" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/ef2c74ff-4614-4408-9373-472861509e8e" width="300" />
+  <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/721ab929-11fd-4752-a3f7-d50c7bc15b31" width="300" />
   <img src="https://github.com/tfreitasf/SimuladorCarteiraCrypto/assets/83042767/483e0ada-c74e-4991-ba2c-3a7291168bef" width="300" />
 </p>
+
+
 
 
 ## ✔️ Funcionalidades
@@ -17,12 +20,13 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 - Gestão de carteiras virtuais.
 - Acompanhamento do desempenho de investimentos.
 
-## 🌟 Novidades na versão 1.1.0
-- Suporte para imagens SVG no carregamento de ícones de criptomoedas com Coil.
-- Implementação de ActionBar em WalletDetailsActivity, com opções de edição de carteira.
-- Capacidade de abrir detalhes de uma criptomoeda específica ao clicar em um item de cryptomoedas da carteira.
-- Atualização da lógica de carregamento e exibição de criptomoedas para usar o modelo Crypto.
-- Parcelização do modelo Wallet para facilitar o transporte de dados entre Activities.: Criptomoedas com saldo zero, resultantes de vendas ou outras transações, são automaticamente ocultadas da lista de criptomoedas na carteira, mantendo a interface limpa e focada nos ativos atuais.
+## 🌟 Novidades na versão 1.1.1
+- Refatoração para Uso de BigDecimal: Todos os tipos de dados Double foram substituídos por BigDecimal para maior precisão.
+- Melhorias em Atividades e Adapters: Refatorações nas atividades e adapters para suportar a mudança para BigDecimal.
+- Tratamento de Erros: Implementação de tratamento de erros e exceções, garantindo maior estabilidade do aplicativo.
+- Aprimoramentos na MainActivity: Inclusão de verificações de conectividade à Internet, com feedback visual para os usuários.
+- Refatoração do CoinRepository: Alterações para aprimorar o tratamento de erros e manipulação de dados nulos da API.
+
 
 ## 🔨 Técnicas e tecnologias no projeto
 - `Kotlin`: Linguagem de programação utilizada para desenvolver o aplicativo.
@@ -32,6 +36,7 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 - `Room Database`: Persistência de dados com Room para armazenar os produtos localmente.
 - `Flow`: Para lidar com sequências assíncronas de dados.
 - `Retrofit`: para chamadas de API.
+- `BigDecimal`: Nova implementação para precisão de dados financeiros.
 
 ## 🚀 Futuras Implementações
 - Implementação de autenticação de usuários e controle de acesso.
@@ -46,6 +51,13 @@ Para usar este aplicativo, siga estes passos:
 - Comece a simular transações de criptomoedas.
 
 ## 📝 Histórico de Versões
+
+### Versão 1.1.1 (15/01/2024)
+- Refatoração para uso de BigDecimal em toda a aplicação.
+- Melhorias nas atividades e adapters para suportar BigDecimal.
+- Aprimoramento no tratamento de erros e exceções.
+- Implementação de verificação de conectividade à Internet e feedback visual na MainActivity.
+- Refatoração do CoinRepository para tratamento de erros e manipulação de dados.
 
 ### Versão 1.1.0 (09/12/2023)
 - Adição de ActionBar e opções de edição em WalletDetailsActivity.
