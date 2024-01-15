@@ -12,6 +12,8 @@ Este projeto é um simulador de carteira de criptomoedas desenvolvido em Kotlin.
 </p>
 
 
+
+
 ## ✔️ Funcionalidades
 - Depósito e saques de dinheiro.
 - Compra e venda de criptomoedas.
