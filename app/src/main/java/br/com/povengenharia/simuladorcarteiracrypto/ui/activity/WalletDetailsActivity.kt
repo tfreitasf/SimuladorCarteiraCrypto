@@ -16,6 +16,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.ui.recyclerview.adapter.Coin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 
 class WalletDetailsActivity : AppCompatActivity() {
 
@@ -78,18 +79,14 @@ class WalletDetailsActivity : AppCompatActivity() {
                         startActivity(editIntent)
                     }
                 }
-
                 true
             }
-
             android.R.id.home -> {
                 onBackPressed()
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
     private fun setupRecyclerView() {
@@ -104,17 +101,16 @@ class WalletDetailsActivity : AppCompatActivity() {
                 putExtra(KEY_WALLET_ID, walletID)
             }
             startActivity(intent)
-
         }
     }
 
     private fun fetchCryptoForWallet(walletId: Int) {
         cryptoWalletRepository.fetchCryptoForWallet(walletId) { cryptos, totalWalletValue ->
             val cryptoInWallet = cryptos.filter {
-                it.quantityOwned > 0.0 && it.price > 0.0
+                it.quantityOwned.compareTo(BigDecimal.ZERO) > 0 && it.price.compareTo(BigDecimal.ZERO) > 0
             }
             adapter.updateList(cryptoInWallet)
-            updateTotalCryptoValue(totalWalletValue)
+            updateTotalCryptoValue(totalWalletValue.toDouble())
         }
     }
 

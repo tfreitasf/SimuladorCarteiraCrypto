@@ -21,9 +21,11 @@ class CoinWalletAdapter(
         fun bind(crypto: Crypto) {
             binding.ivCoinWalletItemSymbol.TryLoadImage(url = crypto.iconUrl)
             binding.tvCoinWalletItemName.text = crypto.name
-            binding.tvCoinWalletItemPrice.text = formatValueDollarCurrency(crypto.price.toString())
+            val totalValue = crypto.quantityOwned * crypto.price
+            binding.tvCoinWalletItemPrice.text = formatValueDollarCurrency(totalValue.toString())
             binding.tvCoinWalletItemSatoshiSymbol.text = crypto.symbol
-            binding.tvCoinWalletItemSatoshi.text = crypto.quantityOwned.toString()
+            val formattedQuantity = String.format("%.8f", crypto.quantityOwned)
+            binding.tvCoinWalletItemSatoshi.text = formattedQuantity
 
             itemView.setOnClickListener {
                 whenClickOnItem(crypto)

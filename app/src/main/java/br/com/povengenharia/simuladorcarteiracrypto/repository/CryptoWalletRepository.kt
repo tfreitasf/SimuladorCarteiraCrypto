@@ -7,6 +7,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class CryptoWalletRepository(
     private val appDatabase: AppDatabase,
@@ -18,36 +19,37 @@ class CryptoWalletRepository(
     private val walletDao = appDatabase.walletDao()
 
 
-    fun fetchCryptoForWallet(walletId: Int, onResult: (List<Crypto>, Double) -> Unit) {
+    fun fetchCryptoForWallet(walletId: Int, onResult: (List<Crypto>, BigDecimal) -> Unit) {
         scope.launch {
             val transactions = transactionDao.getTransactionsForWalletByType(
                 walletId,
                 listOf(TransactionType.BUY, TransactionType.SELL)
             ).firstOrNull() ?: return@launch
-            val cryptoQuantities = mutableMapOf<String, Double>()
-            var totalWalletValue = 0.0
+
+            val cryptoQuantities = mutableMapOf<String, BigDecimal>()
+            var totalWalletValue = BigDecimal.ZERO
 
             for (transaction in transactions) {
-                val currentAmount =
-                    cryptoQuantities.getOrDefault(transaction.cryptoId ?: continue, 0.0)
-                val amountChange = if (transaction.type == TransactionType.BUY) transaction.quantity
-                    ?: 0.0 else -(transaction.quantity ?: 0.0)
-                cryptoQuantities[transaction.cryptoId] = currentAmount + amountChange
+                val cryptoId = transaction.cryptoId ?: continue
+                val currentAmount = cryptoQuantities.getOrDefault(cryptoId, BigDecimal.ZERO)
+                val amountChange = transaction.quantity?.let {
+                    if (transaction.type == TransactionType.BUY) it else it.negate()
+                } ?: BigDecimal.ZERO
+                cryptoQuantities[cryptoId] = currentAmount.add(amountChange)
             }
 
             val coinWalletItems = cryptoQuantities.mapNotNull { (cryptoId, quantity) ->
                 val cryptoInfo =
                     cryptoFromApiDao.getCryptoById(cryptoId).firstOrNull() ?: return@mapNotNull null
-                val totalValue = quantity * cryptoInfo.price.toDouble()
-                totalWalletValue += totalValue
+                val totalValue = quantity.multiply(cryptoInfo.price)
+                totalWalletValue = totalWalletValue.add(totalValue)
                 Crypto(
                     uuid = cryptoInfo.uuid,
                     symbol = cryptoInfo.symbol,
                     name = cryptoInfo.name,
                     iconUrl = cryptoInfo.iconUrl,
-                    price = cryptoInfo.price.toDouble(),
+                    price = cryptoInfo.price,
                     quantityOwned = quantity
-
                 )
             }
 
@@ -55,41 +57,46 @@ class CryptoWalletRepository(
         }
     }
 
-    suspend fun calculateTotalWalletValue(walletId: Int): Double {
+
+
+    suspend fun calculateTotalWalletValue(walletId: Int): BigDecimal {
         val transactions = transactionDao.getTransactionsForWalletByType(
             walletId, listOf(TransactionType.BUY, TransactionType.SELL)
-        ).firstOrNull() ?: return 0.0
+        ).firstOrNull() ?: return BigDecimal.ZERO
 
-        val cryptoQuantities = mutableMapOf<String, Double>()
+        val cryptoQuantities = mutableMapOf<String, BigDecimal>()
         transactions.forEach { transaction ->
-            val currentAmount =
-                cryptoQuantities.getOrDefault(transaction.cryptoId ?: return@forEach, 0.0)
-            val amountChange = if (transaction.type == TransactionType.BUY) transaction.quantity
-                ?: 0.0 else -(transaction.quantity ?: 0.0)
-            cryptoQuantities[transaction.cryptoId] = currentAmount + amountChange
+            val currentAmount = cryptoQuantities.getOrDefault(
+                transaction.cryptoId ?: return@forEach,
+                BigDecimal.ZERO
+            )
+            val amountChange = transaction.quantity?.let {
+                if (transaction.type == TransactionType.BUY) it else it.negate()
+            } ?: BigDecimal.ZERO
+            cryptoQuantities[transaction.cryptoId] = currentAmount.add(amountChange)
         }
 
         return cryptoQuantities.mapNotNull { (cryptoId, quantity) ->
-            val cryptoInfo =
-                cryptoFromApiDao.getCryptoById(cryptoId).firstOrNull() ?: return@mapNotNull null
-            quantity * cryptoInfo.price.toDouble()
-        }.sum()
+            val cryptoInfo = cryptoFromApiDao.getCryptoById(cryptoId).firstOrNull() ?: return@mapNotNull null
+            quantity.multiply(cryptoInfo.price)
+        }.fold(BigDecimal.ZERO, BigDecimal::add)
     }
 
-    suspend fun fetchQuantityOfCryptoInWallet(walletId: Int, cryptoUuid: String): Double {
+    suspend fun fetchQuantityOfCryptoInWallet(walletId: Int, cryptoUuid: String): BigDecimal {
         val transactions = transactionDao.getTransactionsForWalletByType(
             walletId, listOf(TransactionType.BUY, TransactionType.SELL)
-        ).firstOrNull() ?: return 0.0
+        ).firstOrNull() ?: return BigDecimal.ZERO
 
-        var totalQuantity = 0.0
+        var totalQuantity = BigDecimal.ZERO
         transactions.filter { it.cryptoId == cryptoUuid }.forEach { transaction ->
-            val amountChange = if (transaction.type == TransactionType.BUY) transaction.quantity
-                ?: 0.0 else -(transaction.quantity ?: 0.0)
-            totalQuantity += amountChange
+            val amountChange = if (transaction.type == TransactionType.BUY)
+                transaction.quantity ?: BigDecimal.ZERO
+            else
+                (transaction.quantity ?: BigDecimal.ZERO).negate()
+            totalQuantity = totalQuantity.add(amountChange)
         }
         return totalQuantity
     }
-
     suspend fun getWalletById(walletId: Int): Wallet? {
         return walletDao.findById(walletId).firstOrNull()
     }

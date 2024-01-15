@@ -11,6 +11,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollar
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CryptoWalletRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class CryptoDetailsActivity : AppCompatActivity() {
 
@@ -56,7 +57,7 @@ class CryptoDetailsActivity : AppCompatActivity() {
         val crypto = cryptoFromApiDao.getCryptoById(cryptoUuid).firstOrNull()
         crypto?.let {
             binding.tvActivityCryptoDetailsLastPrice.text =
-                formatValueDollarCurrency(it.price)
+                formatValueDollarCurrency(it.price.toString())
 
         }
     }
@@ -99,7 +100,7 @@ class CryptoDetailsActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val quantity =
                 cryptoWalletRepository.fetchQuantityOfCryptoInWallet(walletId, cryptoUuid)
-            if (quantity > 0) {
+            if (quantity > BigDecimal.ZERO) {
                 val intent =
                     Intent(this@CryptoDetailsActivity, CryptoSellFormActivity::class.java).apply {
                         putExtra("EXTRA_COIN_UUID", cryptoUuid)
@@ -120,7 +121,7 @@ class CryptoDetailsActivity : AppCompatActivity() {
         val quantity = cryptoWalletRepository.fetchQuantityOfCryptoInWallet(walletId, cryptoUuid)
         val cryptoInfo = cryptoFromApiDao.getCryptoById(cryptoUuid).firstOrNull()
 
-        binding.tvActivityCryptoDetailsAmountCryptoAvailable.text = quantity.toString()
+        binding.tvActivityCryptoDetailsAmountCryptoAvailable.text = String.format("%.8f", quantity)
         binding.tvActivityCryptoDetailsSymbolCryptoAvailable.text = cryptoInfo?.symbol
     }
 

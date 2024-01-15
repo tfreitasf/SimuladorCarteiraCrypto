@@ -11,6 +11,8 @@ import br.com.povengenharia.simuladorcarteiracrypto.model.Transaction
 import br.com.povengenharia.simuladorcarteiracrypto.model.TransactionType
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class CryptoBuyFormActivity : AppCompatActivity() {
 
@@ -62,8 +64,8 @@ class CryptoBuyFormActivity : AppCompatActivity() {
             val cryptoFromApi = cryptoFromApiDao.getCryptoById(cryptoUuid).firstOrNull()
 
             if (moneyWallet != null && cryptoWallet != null && cryptoFromApi != null) {
-                val cryptoPrice = cryptoFromApi.price.toDouble()
-                if (cryptoPrice <= 0) {
+                val cryptoPrice = cryptoFromApi.price
+                if (cryptoPrice <= BigDecimal.ZERO) {
                     Toast.makeText(
                         this@CryptoBuyFormActivity,
                         "Preço da criptomoeda inválido",
@@ -72,13 +74,17 @@ class CryptoBuyFormActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                val quantityToBuy = amount / cryptoPrice
-                if (moneyWallet.totalBalance >= amount) {
-                    val newMoneyWalletBalance = moneyWallet.totalBalance - amount
+                val quantityToBuy = BigDecimal(amount).divide(cryptoPrice, 8, RoundingMode.HALF_UP)
+                if (moneyWallet.totalBalance >= BigDecimal(amount)) {
+                    val newMoneyWalletBalance =
+                        moneyWallet.totalBalance.subtract(BigDecimal(amount))
                     walletDao.updateWallet(moneyWallet.copy(totalBalance = newMoneyWalletBalance))
 
                     val ownedCrypto = cryptoDao.getCryptoById(cryptoUuid).firstOrNull()
-                    val newQuantityOwned = (ownedCrypto?.quantityOwned ?: 0.0) + quantityToBuy
+                    val newQuantityOwned =
+                        (ownedCrypto?.quantityOwned ?: BigDecimal.ZERO).add(quantityToBuy)
+                            .setScale(8, RoundingMode.HALF_UP)
+
                     cryptoDao.insertOrUpdateCrypto(
                         Crypto(
                             cryptoUuid,
@@ -93,7 +99,7 @@ class CryptoBuyFormActivity : AppCompatActivity() {
                     transactionDao.insertTransaction(
                         Transaction(
                             type = TransactionType.BUY,
-                            amount = amount,
+                            amount = BigDecimal(amount),
                             walletId = cryptoWalletId,
                             cryptoId = cryptoUuid,
                             pricePerUnit = cryptoPrice,
@@ -101,7 +107,7 @@ class CryptoBuyFormActivity : AppCompatActivity() {
                         )
                     )
 
-                    val updatedCryptoBalance = newQuantityOwned * cryptoPrice
+                    val updatedCryptoBalance = newQuantityOwned.multiply(cryptoPrice)
                     walletDao.updateWallet(cryptoWallet.copy(totalBalance = updatedCryptoBalance))
 
                     Toast.makeText(
@@ -127,4 +133,3 @@ class CryptoBuyFormActivity : AppCompatActivity() {
         }
     }
 }
-

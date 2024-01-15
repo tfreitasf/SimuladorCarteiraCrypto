@@ -9,6 +9,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.database.local.dao.WalletDao
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityWalletFormBinding
 import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class WalletFormActivity : AppCompatActivity() {
 
@@ -65,7 +66,7 @@ class WalletFormActivity : AppCompatActivity() {
             name = name,
             description = description,
             type = "Crypto",
-            totalBalance = 0.0
+            totalBalance = BigDecimal.ZERO
         )
     }
 }

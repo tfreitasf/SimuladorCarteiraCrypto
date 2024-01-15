@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import java.math.BigDecimal
 
 
 @Parcelize
@@ -13,5 +14,5 @@ data class Wallet(
     val name: String,
     val description: String,
     val type: String,
-    var totalBalance: Double
+    var totalBalance: BigDecimal
 ) : Parcelable
