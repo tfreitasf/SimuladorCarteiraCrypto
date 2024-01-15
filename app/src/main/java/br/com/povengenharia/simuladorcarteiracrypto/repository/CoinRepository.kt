@@ -7,6 +7,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.database.webclient.service.C
 import br.com.povengenharia.simuladorcarteiracrypto.model.CryptoFromApi
 import kotlinx.coroutines.CoroutineScope
 import java.io.IOException
+import java.math.BigDecimal
 
 class CoinRepository(
     private val coinService: CoinService,
@@ -40,12 +41,18 @@ class CoinRepository(
         val cryptoFromApiDao = appDatabase.cryptoFromApiDao()
         return try {
             coins.forEach { coin ->
+                val priceAsBigDecimal = try {
+                    BigDecimal(coin.price)
+                } catch (e: NumberFormatException) {
+                    BigDecimal.ZERO
+                }
+
                 val cryptoFromApi = CryptoFromApi(
                     uuid = coin.uuid,
                     symbol = coin.symbol,
                     name = coin.name,
                     iconUrl = coin.iconUrl,
-                    price = coin.price
+                    price = priceAsBigDecimal
                 )
                 cryptoFromApiDao.insertOrUpdateCrypto(cryptoFromApi)
             }

@@ -29,7 +29,7 @@ class CoinListAdapter(
         fun bind(crypto: CryptoFromApi) {
             binding.ivCoinItemSymbol.TryLoadImage(url = crypto.iconUrl)
             binding.tvCoinItemName.text = crypto.name
-            binding.tvCoinItemPrice.text = formatValueDollarCurrency(crypto.price)
+            binding.tvCoinItemPrice.text = formatValueDollarCurrency(crypto.price.toString())
 
             itemView.setOnClickListener {
                 val intent = Intent(context, CryptoDetailsActivity::class.java).apply {

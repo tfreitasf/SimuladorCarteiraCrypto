@@ -13,6 +13,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.model.Transaction
 import br.com.povengenharia.simuladorcarteiracrypto.model.TransactionType
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class WithdrawActivityForm : AppCompatActivity() {
 
@@ -52,7 +53,7 @@ class WithdrawActivityForm : AppCompatActivity() {
         val amount = validateAmount(amountStr) ?: return
 
         lifecycleScope.launch {
-            val moneyWalletBalance = walletDao.findById(1).firstOrNull()?.totalBalance ?: 0.0
+            val moneyWalletBalance = walletDao.findById(1).firstOrNull()?.totalBalance ?: BigDecimal.ZERO
             val formattedBalance = formatValueDollarCurrency(moneyWalletBalance.toString())
             if (amount > moneyWalletBalance) {
                 Toast.makeText(this@WithdrawActivityForm, "Saldo insuficiente. Insira um valor menor ou igual ao seu saldo $formattedBalance.", Toast.LENGTH_LONG).show()
@@ -70,22 +71,27 @@ class WithdrawActivityForm : AppCompatActivity() {
         }
     }
 
-    private fun validateAmount(amountStr: String): Double? {
+    private fun validateAmount(amountStr: String): BigDecimal? {
         if (amountStr.isBlank()) {
             Toast.makeText(this, "Por favor, insira um valor.", Toast.LENGTH_SHORT).show()
             return null
         }
-        val amount = amountStr.toDoubleOrNull()
-        if (amount == null || amount <= 0.0) {
-            Toast.makeText(this, "Valor inválido. Insira um número positivo.", Toast.LENGTH_SHORT).show()
+        try {
+            val amount = BigDecimal(amountStr)
+            if (amount <= BigDecimal.ZERO) {
+                Toast.makeText(this, "Valor inválido. Insira um número positivo.", Toast.LENGTH_SHORT).show()
+                return null
+            }
+            return amount
+        } catch (e: NumberFormatException) {
+            Toast.makeText(this, "Valor inválido. Insira um número válido.", Toast.LENGTH_SHORT).show()
             return null
         }
-        return amount
     }
 
-    private suspend fun updateMoneyWalletBalance(withdrawAmount: Double) {
+    private suspend fun updateMoneyWalletBalance(withdrawAmount: BigDecimal) {
         val wallet = walletDao.findById(1).firstOrNull() ?: return
-        val updatedWallet = wallet.copy(totalBalance = wallet.totalBalance - withdrawAmount)
+        val updatedWallet = wallet.copy(totalBalance = wallet.totalBalance.subtract(withdrawAmount))
         walletDao.updateWallet(updatedWallet)
     }
 

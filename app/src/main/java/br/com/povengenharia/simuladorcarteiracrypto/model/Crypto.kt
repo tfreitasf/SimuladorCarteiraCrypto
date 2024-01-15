@@ -2,6 +2,7 @@ package br.com.povengenharia.simuladorcarteiracrypto.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.math.BigDecimal
 
 @Entity
 data class Crypto (
@@ -10,7 +11,7 @@ data class Crypto (
     val symbol: String,
     val name: String,
     val iconUrl: String,
-    val price: Double,
-    val quantityOwned: Double = 0.0
+    val price: BigDecimal,
+    val quantityOwned: BigDecimal = BigDecimal.ZERO
 
 )

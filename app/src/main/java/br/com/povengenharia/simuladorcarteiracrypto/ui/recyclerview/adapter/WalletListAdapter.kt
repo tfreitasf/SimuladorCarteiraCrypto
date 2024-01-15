@@ -8,6 +8,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.databinding.WalletItemBindin
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
 import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
 import kotlinx.coroutines.CoroutineScope
+import java.math.BigDecimal
 
 class WalletListAdapter(
     private val context: Context,
@@ -61,7 +62,7 @@ class WalletListAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateWalletTotalBalance(walletId: Int, totalBalance: Double) {
+    fun updateWalletTotalBalance(walletId: Int, totalBalance: BigDecimal) {
         wallets.find { it.id == walletId }?.let {
             it.totalBalance = totalBalance
             notifyDataSetChanged()

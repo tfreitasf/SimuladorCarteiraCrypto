@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 
 class MainActivity : AppCompatActivity() {
@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
     private fun getAllWallet() {
         lifecycleScope.launch {
             try {
-
                 walletDao.getAllWallet().collect { wallets ->
                     setupWalletList(wallets)
                     binding.pbActivityMainProressbar.visibility = View.GONE
@@ -89,7 +88,6 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.txt_response_error),
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.e("MainActivity", "Error fetching wallets", e)
                 binding.pbActivityMainProressbar.visibility = View.GONE
             }
         }
@@ -202,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener {
             if (checkForInternet(this)) {
                 addWalletForm()
-            }else{
+            } else {
                 Toast.makeText(
                     this,
                     getString(R.string.txt_no_internet_connection), Toast.LENGTH_SHORT
@@ -217,7 +215,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun updateMyProperty() {
-        val moneyWalletBalance = walletDao.findById(1).firstOrNull()?.totalBalance ?: 0.0
+        val moneyWalletBalance =
+            BigDecimal(walletDao.findById(1).firstOrNull()?.totalBalance?.toString() ?: "0.0")
 
         val cryptoWalletsTotalBalance = walletDao.getAllWallet()
             .firstOrNull()
@@ -225,9 +224,9 @@ class MainActivity : AppCompatActivity() {
             ?.map { wallet ->
                 cryptoWalletRepository.calculateTotalWalletValue(wallet.id)
             }
-            ?.sum() ?: 0.0
+            ?.fold(BigDecimal.ZERO, BigDecimal::add) ?: BigDecimal.ZERO
 
-        val totalBalance = moneyWalletBalance + cryptoWalletsTotalBalance
+        val totalBalance = moneyWalletBalance.add(cryptoWalletsTotalBalance)
         val formattedTotalBalance = formatValueDollarCurrency(totalBalance.toString())
 
         binding.tvActivityMainPropertyValues.text = formattedTotalBalance

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import br.com.povengenharia.simuladorcarteiracrypto.database.local.dao.CryptoDao
 import br.com.povengenharia.simuladorcarteiracrypto.database.local.dao.CryptoFromApiDao
 import br.com.povengenharia.simuladorcarteiracrypto.database.local.dao.TransactionDao
@@ -12,9 +13,15 @@ import br.com.povengenharia.simuladorcarteiracrypto.model.Crypto
 import br.com.povengenharia.simuladorcarteiracrypto.model.CryptoFromApi
 import br.com.povengenharia.simuladorcarteiracrypto.model.Transaction
 import br.com.povengenharia.simuladorcarteiracrypto.model.Wallet
+import br.com.povengenharia.simuladorcarteiracrypto.model.converter.BigDecimalConverter
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [Wallet::class, Transaction::class, Crypto::class, CryptoFromApi::class], version = 5, exportSchema = false)
+@Database(
+    entities = [Wallet::class, Transaction::class, Crypto::class, CryptoFromApi::class],
+    version = 7,
+    exportSchema = false
+)
+@TypeConverters(BigDecimalConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun walletDao(): WalletDao
@@ -26,23 +33,25 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun cryptoFromApiDao(): CryptoFromApiDao
 
     companion object {
-
         @Volatile
         var INSTANCE: AppDatabase? = null
 
         fun getInstance(context: Context, scope: CoroutineScope): AppDatabase {
-
             return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "wallet.db"
-                )
-                    .addCallback(AppDatabaseCallback(scope))
-                    .build()
-                INSTANCE = instance
-                instance
+                INSTANCE ?: buildDatabase(context, scope).also { INSTANCE = it }
             }
+        }
+
+        private fun buildDatabase(context: Context, scope: CoroutineScope): AppDatabase {
+            val database = Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                "wallet.db"
+            )
+                .fallbackToDestructiveMigration()
+                .addCallback(AppDatabaseCallback(scope))
+                .build()
+            return database
         }
     }
 }

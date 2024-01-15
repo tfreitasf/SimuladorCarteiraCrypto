@@ -12,6 +12,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.model.Transaction
 import br.com.povengenharia.simuladorcarteiracrypto.model.TransactionType
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class DepositFormActivity : AppCompatActivity() {
 
@@ -40,7 +41,7 @@ class DepositFormActivity : AppCompatActivity() {
         val btnsave = binding.btActivityDepositDeposit
         btnsave.setOnClickListener {
             val newDeposit = createNewDeposit()
-            if(newDeposit != null){
+            if (newDeposit != null) {
                 lifecycleScope.launch {
                     transactionDao.insertTransaction(newDeposit)
                     updateMoneyWalletBalance(newDeposit.amount)
@@ -67,14 +68,15 @@ class DepositFormActivity : AppCompatActivity() {
 
         return Transaction(
             type = TransactionType.DEPOSIT,
-            amount = amount,
+            amount = BigDecimal(amount.toString()),
             walletId = 1
         )
     }
 
-    private suspend fun updateMoneyWalletBalance(depositAmount: Double) {
+    private suspend fun updateMoneyWalletBalance(depositAmount: BigDecimal) {
         val wallet = walletDao.findById(1).firstOrNull() ?: return
-        val updatedWallet = wallet.copy(totalBalance = wallet.totalBalance + depositAmount)
+        val updatedWallet =
+            wallet.copy(totalBalance = wallet.totalBalance.add(depositAmount))
         walletDao.updateWallet(updatedWallet)
     }
 
