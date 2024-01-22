@@ -7,6 +7,26 @@
     tools:context=".ui.activity.CryptoDetailsActivity">
 
     <TextView
+        android:id="@+id/tv_activity_crypto_details_crypto_title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="BITCOIN" />
+
+    <ImageView
+        android:id="@+id/ivactivity_crypto_details_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_favorite_border"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_activity_crypto_details_crypto_title"
+        app:layout_constraintEnd_toEndOf="@+id/tv_activity_crypto_details_symbol_crypto_available"
+        app:layout_constraintTop_toTopOf="@+id/tv_activity_crypto_details_crypto_title" />
+
+    <TextView
         android:id="@+id/tv_activity_crypto_details_crypto_balance_available"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +34,7 @@
         android:text="@string/txt_activity_crypto_details_balance_available"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_activity_crypto_details_crypto_title" />
 
     <TextView
         android:id="@+id/tv_activity_crypto_details_symbol_crypto_available"
@@ -99,8 +119,8 @@
     <Button
         android:id="@+id/btn_activity_crypto_details_buy"
         android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/txt_btn_activity_crypto_details_buy"
         app:layout_constraintEnd_toStartOf="@id/btn_activity_crypto_details_sell"
         app:layout_constraintStart_toStartOf="parent"

@@ -57,8 +57,6 @@ class CryptoWalletRepository(
         }
     }
 
-
-
     suspend fun calculateTotalWalletValue(walletId: Int): BigDecimal {
         val transactions = transactionDao.getTransactionsForWalletByType(
             walletId, listOf(TransactionType.BUY, TransactionType.SELL)
@@ -100,8 +98,6 @@ class CryptoWalletRepository(
     suspend fun getWalletById(walletId: Int): Wallet? {
         return walletDao.findById(walletId).firstOrNull()
     }
-
-
 }
 
 

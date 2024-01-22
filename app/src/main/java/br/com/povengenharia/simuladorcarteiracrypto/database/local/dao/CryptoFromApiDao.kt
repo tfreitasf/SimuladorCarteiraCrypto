@@ -21,4 +21,10 @@ interface CryptoFromApiDao {
 
     @Update
     suspend fun updateCrypto(crypto: CryptoFromApi)
+
+    @Query("SELECT * FROM CryptoFromApi ORDER BY isFavorite DESC")
+    fun getAllCryptosOrderedByFavorite(): Flow<List<CryptoFromApi>>
+
+    @Query("SELECT * FROM CryptoFromApi WHERE name LIKE :searchQuery OR symbol LIKE :searchQuery")
+    fun searchCryptos(searchQuery: String): Flow<List<CryptoFromApi>>
 }

@@ -6,6 +6,7 @@ import br.com.povengenharia.simuladorcarteiracrypto.database.webclient.model.Coi
 import br.com.povengenharia.simuladorcarteiracrypto.database.webclient.service.CoinService
 import br.com.povengenharia.simuladorcarteiracrypto.model.CryptoFromApi
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.firstOrNull
 import java.io.IOException
 import java.math.BigDecimal
 
@@ -36,25 +37,39 @@ class CoinRepository(
         }
     }
 
-
     private suspend fun updateCryptoDataInDatabase(coins: List<Coin>): Result<Unit> {
         val cryptoFromApiDao = appDatabase.cryptoFromApiDao()
         return try {
             coins.forEach { coin ->
+                val existingCrypto = cryptoFromApiDao.getCryptoById(coin.uuid).firstOrNull()
                 val priceAsBigDecimal = try {
                     BigDecimal(coin.price)
                 } catch (e: NumberFormatException) {
                     BigDecimal.ZERO
                 }
+                if (existingCrypto != null) {
+                    val updatedCrypto  = existingCrypto.copy(
+                        uuid = coin.uuid,
+                        symbol = coin.symbol,
+                        name = coin.name,
+                        iconUrl = coin.iconUrl,
+                        price = priceAsBigDecimal,
+                        change = coin.change
 
-                val cryptoFromApi = CryptoFromApi(
-                    uuid = coin.uuid,
-                    symbol = coin.symbol,
-                    name = coin.name,
-                    iconUrl = coin.iconUrl,
-                    price = priceAsBigDecimal
-                )
-                cryptoFromApiDao.insertOrUpdateCrypto(cryptoFromApi)
+                    )
+                    cryptoFromApiDao.updateCrypto(updatedCrypto)
+                } else {
+                    val newCrypto = CryptoFromApi(
+                        uuid = coin.uuid,
+                        symbol = coin.symbol,
+                        name = coin.name,
+                        iconUrl = coin.iconUrl,
+                        price = priceAsBigDecimal,
+                        isFavorite = false,
+                        change = coin.change
+                    )
+                    cryptoFromApiDao.insertOrUpdateCrypto(newCrypto)
+                }
             }
             Result.success(Unit)
         } catch (e: Exception) {
