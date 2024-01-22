@@ -18,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @Database(
     entities = [Wallet::class, Transaction::class, Crypto::class, CryptoFromApi::class],
-    version = 7,
+    version = 10,
     exportSchema = false
 )
 @TypeConverters(BigDecimalConverter::class)
@@ -48,7 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
                 AppDatabase::class.java,
                 "wallet.db"
             )
-                .fallbackToDestructiveMigration()
+                .addMigrations(MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
                 .addCallback(AppDatabaseCallback(scope))
                 .build()
             return database

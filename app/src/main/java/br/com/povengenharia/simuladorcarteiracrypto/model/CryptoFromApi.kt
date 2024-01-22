@@ -10,5 +10,7 @@ data class CryptoFromApi(
     val symbol: String,
     val name: String,
     val iconUrl: String,
-    var price: BigDecimal
+    var price: BigDecimal,
+    var isFavorite : Boolean = false,
+    var change : String
 )

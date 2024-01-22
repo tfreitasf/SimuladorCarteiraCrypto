@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import br.com.povengenharia.simuladorcarteiracrypto.R
 import br.com.povengenharia.simuladorcarteiracrypto.database.AppDatabase
 import br.com.povengenharia.simuladorcarteiracrypto.databinding.ActivityCryptoDetailsBinding
 import br.com.povengenharia.simuladorcarteiracrypto.extensions.formatValueDollarCurrency
+import br.com.povengenharia.simuladorcarteiracrypto.model.CryptoFromApi
 import br.com.povengenharia.simuladorcarteiracrypto.repository.CryptoWalletRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -46,10 +48,12 @@ class CryptoDetailsActivity : AppCompatActivity() {
         val walletId = intent.getIntExtra(KEY_WALLET_ID, -1)
 
 
+
         lifecycleScope.launch {
             fetchCryptoDetails(cryptoUuid)
             fetchMoneyWalletBalance()
             updateCryptoQuantityAndSymbol(cryptoUuid, walletId)
+            cryptoFavorite(cryptoUuid)
         }
     }
 
@@ -58,7 +62,33 @@ class CryptoDetailsActivity : AppCompatActivity() {
         crypto?.let {
             binding.tvActivityCryptoDetailsLastPrice.text =
                 formatValueDollarCurrency(it.price.toString())
+            binding.tvActivityCryptoDetailsCryptoTitle.text = it.name
+        }
+    }
 
+    private suspend fun cryptoFavorite(cryptoUuid: String) {
+        val crypto = cryptoFromApiDao.getCryptoById(cryptoUuid).firstOrNull()
+        if (crypto != null) {
+            updateFavoriteIcon(crypto.isFavorite)
+        }
+        binding.ivactivityCryptoDetailsFavorite.setOnClickListener {
+            if (crypto != null) {
+                crypto.isFavorite = !crypto.isFavorite
+                updateFavoriteIcon(crypto.isFavorite)
+                updateFavoriteStatus(crypto)
+            }
+        }
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        val favoriteIcon =
+            if (isFavorite) R.drawable.ic_favorited else R.drawable.ic_favorite_border
+        binding.ivactivityCryptoDetailsFavorite.setImageResource(favoriteIcon)
+    }
+
+    private fun updateFavoriteStatus(crypto: CryptoFromApi) {
+        lifecycleScope.launch {
+            cryptoFromApiDao.updateCrypto(crypto)
         }
     }
 
