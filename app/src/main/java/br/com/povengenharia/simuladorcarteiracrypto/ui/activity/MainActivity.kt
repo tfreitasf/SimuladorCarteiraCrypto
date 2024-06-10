@@ -28,6 +28,8 @@ import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
 
+    // teste
+
     private val adapter by lazy {
         WalletListAdapter(this, scope = lifecycleScope)
     }
